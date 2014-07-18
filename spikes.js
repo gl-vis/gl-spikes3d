@@ -79,6 +79,9 @@ proto.draw = function(camera) {
 }
 
 proto.update = function(options) {
+  if(!options) {
+    return
+  }
   if("bounds" in options) {
     this.bounds = options.bounds
   }
