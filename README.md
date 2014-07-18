@@ -11,7 +11,7 @@ var shell = require("gl-now")({ clearColor: [0,0,0,0], tickRate: 5 })
 var camera = require("game-shell-orbit-camera")(shell)
 var mat4 = require("gl-matrix").mat4
 var createAxes = require("gl-axes")
-var createSpikes = require("../spikes")
+var createSpikes = require("gl-spikes")
 
 //Bounds on function to plot
 var bounds = [[-1,-1,-1], [1,1,1]]
