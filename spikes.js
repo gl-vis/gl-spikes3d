@@ -18,25 +18,21 @@ var identity = [1,0,0,0,
                 0,0,0,1]
 
 function AxisSpikes(gl, buffer, vao, shader) {
-  this.gl = gl
-  this.buffer = buffer
-  this.vao = vao
-  this.shader = shader
-  this.bounds = [[-1000,-1000,-1000], [1000,1000,1000]]
-  this.position = [0,0,0]
-  this.lineWidth = 2
-  this.colors = [[0,0,0], [0,0,0], [0,0,0]]
-  this.enabled = true
-  this.drawSides = true
+  this.gl         = gl
+  this.buffer     = buffer
+  this.vao        = vao
+  this.shader     = shader
+  this.bounds     = [[-1000,-1000,-1000], [1000,1000,1000]]
+  this.position   = [0,0,0]
+  this.lineWidth  = [2,2,2]
+  this.colors     = [[0,0,0,1], [0,0,0,1], [0,0,0,1]]
+  this.enabled    = [true,true,true]
+  this.drawSides  = [true,true,true]
 }
 
 var proto = AxisSpikes.prototype
 
 proto.draw = function(camera) {
-  if(!this.enabled) {
-    return
-  }
-
   var gl = this.gl
   var vao = this.vao
   var shader = this.shader
@@ -44,8 +40,8 @@ proto.draw = function(camera) {
   vao.bind()
   shader.bind()
 
-  var model = camera.model || identity
-  var view = camera.view || identity
+  var model      = camera.model || identity
+  var view       = camera.view || identity
   var projection = camera.projection || identity
 
   var axis = axesParams(model, view, projection, this.bounds).axis
@@ -61,18 +57,20 @@ proto.draw = function(camera) {
     }
   }
   
-  shader.uniforms.model = model
-  shader.uniforms.view = view
-  shader.uniforms.projection = projection
+  shader.uniforms.model       = model
+  shader.uniforms.view        = view
+  shader.uniforms.projection  = projection
   shader.uniforms.coordinates = [this.position, outerFace, innerFace]
-  shader.uniforms.colors = this.colors
+  shader.uniforms.colors      = this.colors
 
-  gl.lineWidth(this.lineWidth)
-
-  if(this.drawSides) {
-    vao.draw(gl.LINES, 18)
-  } else {
-    vao.draw(gl.LINES, 6)
+  for(var i=0; i<3; ++i) {
+    gl.lineWidth(this.lineWidth[i])
+    if(this.enabled[i]) {
+      vao.draw(gl.LINES, 2, 2*i)
+      if(this.drawSides[i]) {
+        vao.draw(gl.LINES, 4, 6+4*i)
+      }
+    }
   }
 
   vao.unbind()

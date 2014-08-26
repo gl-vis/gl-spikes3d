@@ -25,8 +25,8 @@ shell.on("gl-init", function() {
   })
 
   spikes = createSpikes(gl, {
-    bounds: bounds,
-    colors: [[1,0,0], [0,1,0], [0,0,1]],
+    bounds:   bounds,
+    colors:   [[1,0,0,1], [0,1,0,1], [0,0,1,1]],
     position: [0,0,0]
   })
 })

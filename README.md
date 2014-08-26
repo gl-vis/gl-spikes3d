@@ -33,7 +33,7 @@ shell.on("gl-init", function() {
 
   spikes = createSpikes(gl, {
     bounds: bounds,
-    colors: [[1,0,0], [0,1,0], [0,0,1]],
+    colors: [[1,0,0,1], [0,1,0,1], [0,0,1,1]],
     position: [0,0,0]
   })
 })
@@ -92,9 +92,10 @@ Updates the parameters of the axes spikes. `options` is an object with the follo
 
 * `position` the position of the spike ball in data coordinates
 * `bounds` the bounds of the axes object
-* `colors` an array of 3 length 3 arrays encoding the colors for the spikes along the x/y/z directions
-* `enabled` a flag which if set turns on or off the spikes
-* `drawSides` a flag which if set turns on or off the projected spikes in each data plane
+* `colors` an array of 3 length 4 arrays encoding the RGBA colors for the spikes along the x/y/z directions
+* `enabled` an array of 3 flags which if set turns on or off the spikes
+* `drawSides` an array of 3 flag which if set turns on or off the projected spikes in each data plane
+* `lineWidth` an array of 3 numbers giving the thickness of the spikes for each axis
 
 #### `spikes.dispose()`
 Destroys the spike object and releases all associated resources.
