@@ -1,6 +1,6 @@
-gl-spikes
-=========
-Draws axis spikes compatible with gl-axes.  This can be useful to illustrate selections or specific points in a point cloud
+gl-spikes3d
+===========
+Draws axis spikes compatible with gl-axes3d.  This can be useful to illustrate selections or specific points in a point cloud
 
 ## Example
 

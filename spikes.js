@@ -3,7 +3,6 @@
 var createBuffer = require('gl-buffer')
 var createVAO = require('gl-vao')
 var glslify = require('glslify')
-var axesParams = require('gl-axes/lib/cube')
 
 module.exports = createSpikes
 
@@ -28,9 +27,19 @@ function AxisSpikes(gl, buffer, vao, shader) {
   this.colors     = [[0,0,0,1], [0,0,0,1], [0,0,0,1]]
   this.enabled    = [true,true,true]
   this.drawSides  = [true,true,true]
+  this.axes       = null
 }
 
 var proto = AxisSpikes.prototype
+
+var OUTER_FACE = [0,0,0]
+var INNER_FACE = [0,0,0]
+
+proto.isTransparent = function() {
+  return false
+}
+
+proto.drawTransparent = function(camera) {}
 
 proto.draw = function(camera) {
   var gl = this.gl
@@ -44,11 +53,15 @@ proto.draw = function(camera) {
   var view       = camera.view || identity
   var projection = camera.projection || identity
 
-  var axis = axesParams(model, view, projection, this.bounds).axis
-  var outerFace = [0,0,0]
-  var innerFace = [0,0,0]
+  var axis
+  if(this.axes) {
+    axis = this.axes.lastCubeProps.axis
+  }
+
+  var outerFace = OUTER_FACE
+  var innerFace = INNER_FACE
   for(var i=0; i<3; ++i) {
-    if(axis[i] < 0) {
+    if(axis && axis[i] < 0) {
       outerFace[i] = this.bounds[0][i]
       innerFace[i] = this.bounds[1][i]
     } else {
