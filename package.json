@@ -26,6 +26,14 @@
       "glslify"
     ]
   },
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gl-vis/gl-spikes3d.git"
+  },
+  "author": "Mikola Lysenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gl-vis/gl-spikes3d/issues"
+  },
+  "homepage": "https://github.com/gl-vis/gl-spikes3d"
 }
