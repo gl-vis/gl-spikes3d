@@ -21,6 +21,7 @@ function AxisSpikes(gl, buffer, vao, shader) {
   this.buffer     = buffer
   this.vao        = vao
   this.shader     = shader
+  this.pixelRatio = 1
   this.bounds     = [[-1000,-1000,-1000], [1000,1000,1000]]
   this.position   = [0,0,0]
   this.lineWidth  = [2,2,2]
@@ -34,6 +35,8 @@ var proto = AxisSpikes.prototype
 
 var OUTER_FACE = [0,0,0]
 var INNER_FACE = [0,0,0]
+
+var SHAPE = [0,0]
 
 proto.isTransparent = function() {
   return false
@@ -69,19 +72,23 @@ proto.draw = function(camera) {
       innerFace[i] = this.bounds[0][i]
     }
   }
-  
+
+  SHAPE[0] = gl.drawingBufferWidth
+  SHAPE[1] = gl.drawingBufferHeight
+
   shader.uniforms.model       = model
   shader.uniforms.view        = view
   shader.uniforms.projection  = projection
   shader.uniforms.coordinates = [this.position, outerFace, innerFace]
   shader.uniforms.colors      = this.colors
+  shader.uniforms.screenShape = SHAPE
 
   for(var i=0; i<3; ++i) {
-    gl.lineWidth(this.lineWidth[i])
+    shader.uniforms.lineWidth = this.lineWidth[i] * this.pixelRatio
     if(this.enabled[i]) {
-      vao.draw(gl.LINES, 2, 2*i)
+      vao.draw(gl.TRIANGLES, 6, 6*i)
       if(this.drawSides[i]) {
-        vao.draw(gl.LINES, 4, 6+4*i)
+        vao.draw(gl.TRIANGLES, 12, 18+12*i)
       }
     }
   }
@@ -119,50 +126,67 @@ proto.dispose = function() {
   this.shader.dispose()
 }
 
+
+
 function createSpikes(gl, options) {
   //Create buffers
-  var data = [
-    0, 0, 0,  1, 0, 0,
-    1, 0, 0,  1, 0, 0,
-    0, 0, 0,  0, 1, 0,
-    0, 1, 0,  0, 1, 0,
-    0, 0, 0,  0, 0, 1,
-    0, 0, 1,  0, 0, 1,
+  var data = [ ]
 
-    1,-1, 0,  1, 0, 0,
-    1, 1, 0,  1, 0, 0,
-    1, 0,-1,  1, 0, 0,
-    1, 0, 1,  1, 0, 0,
+  function line(x,y,z,i,l,h) {
+    var row = [x,y,z,  0,0,0,  1]
+    row[i+3] = 1
+    row[i] = l
+    data.push.apply(data, row)
+    row[6] = -1
+    data.push.apply(data, row)
+    row[i] = h
+    data.push.apply(data, row)
+    data.push.apply(data, row)
+    row[6] = 1
+    data.push.apply(data, row)
+    row[i] = l
+    data.push.apply(data, row)
+  }
 
-   -1, 1, 0,  0, 1, 0,
-    1, 1, 0,  0, 1, 0,
-    0, 1,-1,  0, 1, 0,
-    0, 1, 1,  0, 1, 0,
-    
-   -1, 0, 1,  0, 0, 1,
-    1, 0, 1,  0, 0, 1,
-    0,-1, 1,  0, 0, 1,
-    0, 1, 1,  0, 0, 1
-  ]
+  line(0,0,0, 0, 0, 1)
+  line(0,0,0, 1, 0, 1)
+  line(0,0,0, 2, 0, 1)
+
+  line(1,0,0,  1,  -1,1)
+  line(1,0,0,  2,  -1,1)
+
+  line(0,1,0,  0,  -1,1)
+  line(0,1,0,  2,  -1,1)
+
+  line(0,0,1,  0,  -1,1)
+  line(0,0,1,  1,  -1,1)
+
   var buffer = createBuffer(gl, data)
   var vao = createVAO(gl, [{
     type: gl.FLOAT,
     buffer: buffer,
     size: 3,
     offset: 0,
-    stride: 24
+    stride: 28
   }, {
     type: gl.FLOAT,
     buffer: buffer,
     size: 3,
     offset: 12,
-    stride: 24
+    stride: 28
+  }, {
+    type: gl.FLOAT,
+    buffer: buffer,
+    size: 1,
+    offset: 24,
+    stride: 28
   }])
 
   //Create shader
   var shader = createShader(gl)
   shader.attributes.position.location = 0
   shader.attributes.color.location = 1
+  shader.attributes.weight.location = 2
 
   //Create spike object
   var spikes = new AxisSpikes(gl, buffer, vao, shader)
