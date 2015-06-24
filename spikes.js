@@ -2,14 +2,9 @@
 
 var createBuffer = require('gl-buffer')
 var createVAO = require('gl-vao')
-var glslify = require('glslify')
+var createShader = require('./shaders/index')
 
 module.exports = createSpikes
-
-var createShader = glslify({
-  vert: './shaders/vertex.glsl',
-  frag: './shaders/fragment.glsl'
-})
 
 var identity = [1,0,0,0,
                 0,1,0,0,

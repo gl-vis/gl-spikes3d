@@ -7,9 +7,10 @@
     "example": "example"
   },
   "dependencies": {
-    "gl-buffer": "^2.0.8",
-    "gl-vao": "^1.1.3",
-    "glslify": "^1.4.0"
+    "gl-buffer": "^2.1.2",
+    "gl-shader": "^4.0.4",
+    "gl-vao": "^1.2.1",
+    "glslify": "^2.1.2"
   },
   "devDependencies": {
     "gl-state": "^1.0.0",
