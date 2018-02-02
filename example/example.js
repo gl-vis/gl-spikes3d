@@ -3,7 +3,7 @@
 var shell = require("gl-now")({ clearColor: [0,0,0,0], tickRate: 5 })
 var camera = require("game-shell-orbit-camera")(shell)
 var mat4 = require("gl-matrix").mat4
-var createAxes = require("gl-axes")
+var createAxes = require("gl-axes3d")
 var createSpikes = require("../spikes")
 
 //Bounds on function to plot
@@ -17,7 +17,7 @@ var axes, spikes
 
 shell.on("gl-init", function() {
   var gl = shell.gl
-  
+
   axes = createAxes(gl, {
     bounds: bounds,
     tickSpacing: [0.1,0.1,0.1],
