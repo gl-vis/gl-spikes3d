@@ -10,14 +10,15 @@
     "gl-buffer": "^2.1.2",
     "gl-shader": "^4.0.4",
     "gl-vao": "^1.2.1",
-    "glslify": "^2.1.2"
+    "glslify": "^6.1.0"
   },
   "devDependencies": {
-    "gl-state": "^1.0.0",
-    "gl-matrix": "^2.1.0",
     "beefy": "~1.1.0",
     "game-shell-orbit-camera": "~0.0.0",
-    "gl-now": "~1.3.1"
+    "gl-axes3d": "^1.2.6",
+    "gl-matrix": "^2.1.0",
+    "gl-now": "~1.3.1",
+    "gl-state": "^1.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
