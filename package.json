@@ -16,7 +16,7 @@
     "beefy": "^2.1.8",
     "chttps": "^1.0.6",
     "game-shell-orbit-camera": "~1.0.0",
-    "gl-axes3d": "^1.4.2",
+    "gl-axes3d": "^1.4.3",
     "gl-matrix": "^3.0.0",
     "gl-now": "~1.4.0",
     "gl-state": "^1.0.0",
