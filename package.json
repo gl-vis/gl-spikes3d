@@ -15,8 +15,8 @@
   "devDependencies": {
     "chttps": "^1.0.6",
     "game-shell-orbit-camera": "~1.0.0",
-    "gl-axes3d": "^1.5.2",
-    "gl-matrix": "^3.0.0",
+    "gl-axes3d": "^1.5.3",
+    "gl-matrix": "^3.3.0",
     "gl-now": "~1.4.0",
     "gl-state": "^1.0.0",
     "mime": "^2.4.4"
