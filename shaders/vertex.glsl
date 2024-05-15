@@ -15,8 +15,8 @@ void main() {
   vec3 vertexPosition = mix(coordinates[0],
     mix(coordinates[2], coordinates[1], 0.5 * (position + 1.0)), abs(position));
 
-  vec4 clipPos = projection * view * model * vec4(vertexPosition, 1.0);
-  vec2 clipOffset = (projection * view * model * vec4(color, 0.0)).xy;
+  vec4 clipPos = projection * (view * (model * vec4(vertexPosition, 1.0)));
+  vec2 clipOffset = (projection * (view * (model * vec4(color, 0.0)))).xy;
   vec2 delta = weight * clipOffset * screenShape;
   vec2 lineOffset = normalize(vec2(delta.y, -delta.x)) / screenShape;
 
